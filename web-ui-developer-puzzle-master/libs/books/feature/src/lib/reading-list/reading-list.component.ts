@@ -4,6 +4,7 @@ import { getReadingList, removeFromReadingList, updateReadingItem } from '@tmo/b
 import { SnackBar, ReadingListItem } from '@tmo/shared/models';
 import { SnackBarComponent } from '../snack-bar/snack-bar-component';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import * as moment from 'moment'; 
 
 @Component({
   selector: 'tmo-reading-list',
@@ -42,15 +43,12 @@ export class ReadingListComponent {
 
   }
 
-  markFinishedInReadingList(data:ReadingListItem) {
+  markFinishedInReadingList(data: ReadingListItem) {
     let item = <ReadingListItem>{};
-    Object.assign(item, data, {finished:true})
-     console.log(item)
-     // call service to update item
-     console.log("updating" + data)
-     this.store.dispatch(updateReadingItem({ item }));
-
-
+    Object.assign(item, data, { finished: !data.finished, finishedDate: data.finished === false ||
+       data.finished === undefined ? moment().format('MMMM Do YYYY, h:mm:ss a') : "" })
+    console.log(item)
+    this.store.dispatch(updateReadingItem({ item }));
   }
 
  

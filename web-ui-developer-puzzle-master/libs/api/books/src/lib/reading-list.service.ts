@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { StorageService } from '@tmo/shared/storage';
 import { Book, ReadingListItem } from '@tmo/shared/models';
+import * as moment from 'moment'; 
 
 const KEY = '[okreads API] Reading List';
 
@@ -31,9 +32,11 @@ export class ReadingListService {
   async updateReadingItem(id: string): Promise<void> {
     console.log(id)
     this.storage.update(list => {
-      const elementsIndex = list.findIndex(item => item.bookId == id )
-      list[elementsIndex] = {...list[elementsIndex], finished: !list[elementsIndex].finished}
-      console.log(list)
+      const elementsIndex = list.findIndex(item => item.bookId == id)
+      //  console.log(list[elementsIndex])
+      list[elementsIndex] = { ...list[elementsIndex], finished: !list[elementsIndex].finished, finishedDate: list[elementsIndex].finished === false ? 
+        moment().format('MMMM Do YYYY, h:mm:ss a') : "" }
+      //  console.log(list[elementsIndex])
       return list
     });
   }
