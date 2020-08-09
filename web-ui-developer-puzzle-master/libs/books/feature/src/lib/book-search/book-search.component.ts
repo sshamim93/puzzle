@@ -10,8 +10,8 @@ import {
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Book, SnackBar } from '@tmo/shared/models';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {Observable} from 'rxjs';
-import {map, startWith, debounceTime} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {map, startWith, debounceTime, takeUntil} from 'rxjs/operators';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../snack-bar/snack-bar-component';
 
@@ -25,7 +25,7 @@ export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
 
   myControl = new FormControl();
-  filteredOptions: Observable<String[]>;
+  filteredOptions: Observable<string[]>;
 
   configSuccess: MatSnackBarConfig = {
     panelClass: ['alert-red'],
@@ -48,8 +48,10 @@ export class BookSearchComponent implements OnInit {
     return this.searchForm.value.term;
   }
 
+   private ngUnsubscribe = new Subject();
+
   ngOnInit(): void {
-    this.store.select(getAllBooks).subscribe(books => {
+     this.store.select(getAllBooks).pipe(takeUntil(this.ngUnsubscribe)).subscribe(books => {
       this.books = books;
     });
 
@@ -112,4 +114,10 @@ export class BookSearchComponent implements OnInit {
       this.store.dispatch(clearSearch());
     }
   }
+
+  ngOnDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
 }

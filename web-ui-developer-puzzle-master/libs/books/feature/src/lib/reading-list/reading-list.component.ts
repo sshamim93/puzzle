@@ -14,8 +14,6 @@ import * as moment from 'moment';
 export class ReadingListComponent {
   readingList$ = this.store.select(getReadingList);
 
-  color:String = "reading"
-
   constructor(private readonly store: Store, private _snackBar: MatSnackBar) {}
 
   configSuccess: MatSnackBarConfig = {

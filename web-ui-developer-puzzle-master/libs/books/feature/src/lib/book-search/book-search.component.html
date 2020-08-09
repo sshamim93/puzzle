@@ -14,9 +14,6 @@
       {{option}}
     </mat-option>
   </mat-autocomplete>
-    <!--<button mat-icon-button matSuffix>
-      <mat-icon>search</mat-icon>
-    </button> -->
   </mat-form-field>
 </form>
 
@@ -28,7 +25,7 @@
       </div>
       <div class="book--content">
         <div class="book--content--cover">
-          <img src="{{ b.coverUrl }}" />
+          <img src="{{ b.coverUrl }}" alt="{{b.title}}" />
         </div>
         <div class="book--content--info">
           <div><strong>Author:</strong> {{ b.authors.join(',') }}</div>
@@ -43,6 +40,8 @@
               color="primary"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
+              (click)="b.finished ? '': addBookToReadingList(b)"
+              [disabled]="b.isAdded && !b.finished"
             >
             {{ b.finished ? 'Finished' : 'Want to Read'}}
             </button>

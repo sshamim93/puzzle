@@ -25,7 +25,8 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "sonar": "sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -86,6 +87,7 @@
     "protractor": "^5.4.4",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
+    "sonar-scanner": "^3.1.0",
     "ts-jest": "25.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
